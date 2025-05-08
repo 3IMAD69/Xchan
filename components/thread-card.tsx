@@ -1,7 +1,6 @@
 "use client"
 
 import { CatalogThreadPost } from "4chan-ts"
-import { useToast } from "@/hooks/use-toast"
 import { Bookmark, LinkIcon, MessageCircle, Share } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -14,7 +13,6 @@ interface ThreadCardProps {
 
 export default function ThreadCard({ thread , boardId}: ThreadCardProps) {
   const [showShareOptions, setShowShareOptions] = useState(false)
-  const { toast } = useToast()
 
   // const timeAgo = formatDistanceToNow(timestamp, { addSuffix: true })
   const formattedDate = new Date(thread.time * 1000).toLocaleString("en-US", {
@@ -31,12 +29,12 @@ export default function ThreadCard({ thread , boardId}: ThreadCardProps) {
   }
 
   const copyThreadLink = () => {
-    const threadUrl = `${window.location.origin}/thread/${thread.no}`
-    navigator.clipboard.writeText(threadUrl)
-    toast({
-      title: "Link copied!",
-      description: "Thread link has been copied to clipboard",
-    })
+    // const threadUrl = `${window.location.origin}/thread/${thread.no}`
+    // navigator.clipboard.writeText(threadUrl)
+    // toast({
+    //   title: "Link copied!",
+    //   description: "Thread link has been copied to clipboard",
+    // })
     setShowShareOptions(false)
   }
 

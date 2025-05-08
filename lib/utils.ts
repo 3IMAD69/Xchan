@@ -1,4 +1,4 @@
-import { ThreadIndex } from "4chan-ts"
+import { Thread, ThreadIndex } from "4chan-ts"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -10,6 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 declare module "4chan-ts" {
   interface Thread {
     replies_arr: Thread[]
+    isReplyInstance : boolean
   }
 }
 
@@ -39,7 +40,7 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
   // }
 
   const posts = Threads.posts;
-  const postMap = new Map(); // For quick lookup of original post objects by their 'no'
+  const postMap = new Map<number, Thread>(); // For quick lookup of original post objects by their 'no'
 
   // First pass: Initialize each original post with an empty 'replies' array
   // and add it to the map. This 'replies' array will store posts that reply TO this post.
@@ -84,7 +85,7 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
             // 'replies_arr' array of the *original* post. This means if other posts
             // reply to currentPost (e.g., post D replies_arr to currentPost),
             // they will appear in replyInstance.replies_arr.
-            replies_arr: originalPostInMap.replies_arr,
+            replies_arr: originalPostInMap?.replies_arr || [],
             isReplyInstance: true // Custom flag to identify this as a specialized instance
           };
 

@@ -5,16 +5,16 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { Suspense } from "react"
 
-interface BoardPageProps {
-  params: {
-    board: string
+
+
+export default async function BoardPage(
+  {
+    params,
+  }: {
+    params: Promise<{  board : string }>
   }
-}
-
-
-
-export default async function BoardPage({ params }: BoardPageProps) {
-  const { board } = params
+) {
+  const { board } = await params
   const {data : Threads , error } = await chan.getCatalog(board);
 
   if (error) {
