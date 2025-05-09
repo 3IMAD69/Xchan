@@ -63,7 +63,6 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
 
     if (replyLinks.length > 0) {
       // This currentPost is replying to one or more other posts.
-      let repliesAnyoneExceptOP = false;
 
       // Check if this post replies to the OP (to save the content)
       replyLinks.forEach((linkInfo, i) => {
@@ -114,7 +113,6 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
 
             // If it replies to anyone except OP, mark for potential filtering
             if (parentPostId !== op.no) {
-              repliesAnyoneExceptOP = true;
               nestedPostsIds.add(currentPost.no);
             }
           }
