@@ -40,7 +40,10 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
   // }
 
   const posts = Threads.posts;
+  const op = posts[0];
   const postMap = new Map<number, Thread>(); // For quick lookup of original post objects by their 'no'
+  const nestedPostsIds = new Set<number>(); // Track posts that have been nested as replies
+  const postRepliesDirectlyToOP = new Map<number, string>(); // Store replies to OP with their content
 
   // First pass: Initialize each original post with an empty 'replies' array
   // and add it to the map. This 'replies' array will store posts that reply TO this post.
@@ -56,11 +59,26 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
     const commentHtml = currentPost.com;
 
     if (!commentHtml) return; // Skip if no comment content
-
     const replyLinks = findReplyLinksInComment(commentHtml);
 
     if (replyLinks.length > 0) {
       // This currentPost is replying to one or more other posts.
+      let repliesAnyoneExceptOP = false;
+
+      // Check if this post replies to the OP (to save the content)
+      replyLinks.forEach((linkInfo, i) => {
+        const parentPostId = parseInt(linkInfo.id, 10);
+        if (parentPostId === op.no) {
+          // Calculate the segment for the OP reply
+          const segmentStartIndex = linkInfo.index;
+          const segmentEndIndex = (i + 1 < replyLinks.length) ? replyLinks[i+1].index : commentHtml.length;
+          const extractedCom = commentHtml.substring(segmentStartIndex, segmentEndIndex).trim();
+
+          // Store this segment as the reply to OP
+          postRepliesDirectlyToOP.set(currentPost.no, extractedCom);
+        }
+      });
+
       // For each parent it replies_arr to, we create a specific reply instance.
       for (let i = 0; i < replyLinks.length; i++) {
         const linkInfo = replyLinks[i];
@@ -93,19 +111,32 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
           // Avoid adding duplicate *instances* if logic somehow allows (though unlikely here).
           if (!parentPostInMap.replies_arr.some(r => r.isReplyInstance && r.no === replyInstance.no && r.com === replyInstance.com)) {
             parentPostInMap.replies_arr.push(replyInstance);
+
+            // If it replies to anyone except OP, mark for potential filtering
+            if (parentPostId !== op.no) {
+              repliesAnyoneExceptOP = true;
+              nestedPostsIds.add(currentPost.no);
+            }
           }
         }
       }
     }
   });
-  console.log(posts);
-  return posts;
-  // // The function returns the OP object from the map.
-  // // This OP object will have its 'replies' array populated with either:
-  // // 1. Original post objects (if they replied only to OP and not multi-reply)
-  // // 2. Specialized 'replyInstance' objects (if they were multi-replies or to ensure com splitting)
-  // // These nested objects, in turn, will have their 'replies' populated similarly.
-  // const op = postMap.get(posts[0].no);
-  // return op;
 
+  // Process the filtered posts
+  const filteredPosts = posts.map(post => {
+    // If this post replies to someone other than OP but also to OP
+    if (nestedPostsIds.has(post.no) && postRepliesDirectlyToOP.has(post.no)) {
+      // Create a modified version that only contains the reply to OP
+      const modifiedPost = {
+        ...post,
+        com: postRepliesDirectlyToOP.get(post.no)
+      };
+      return modifiedPost;
+    }
+    return post;
+  });
+
+  // Return all posts, but with modified content for those that reply to both OP and others
+  return filteredPosts;
 };
