@@ -3,6 +3,7 @@
 import { Thread } from "4chan-ts"
 import { Bookmark, MessageCircle, Share } from "lucide-react"
 import Image from "next/image"
+import { useState } from "react"
 
 interface ReplyProps {
   reply: Thread
@@ -11,7 +12,7 @@ interface ReplyProps {
 }
 
 export default function Reply({ reply , boardId }: ReplyProps) {
-  // const [showReplies, setShowReplies] = useState(false)
+  const [showReplies, setShowReplies] = useState(false)
 
   if (reply.resto == 0) // op , dont want it in comment ,
       return ;
@@ -72,12 +73,12 @@ export default function Reply({ reply , boardId }: ReplyProps) {
 
           <div className="mt-3 flex items-center justify-between text-gray-500">
             <button
-              // onClick={handleLoadReplies}
-              className="flex items-center gap-1 hover:text-gray-300"
+              onClick={()=>setShowReplies(prev => !prev)}
+              className="flex items-center gap-1 hover:text-gray-300 hover:cursor-pointer"
               // disabled={depth >= maxDepth}
             >
               <MessageCircle size={18} />
-              <span>{reply.replies || 0}</span>
+              <span>{reply.replies_arr.length || 0}</span>
             </button>
 
             <div className="flex items-center gap-4">
@@ -113,7 +114,7 @@ export default function Reply({ reply , boardId }: ReplyProps) {
       </div>
 
 
-      {reply.replies_arr.length > 0 &&  (
+      {showReplies && reply.replies_arr.length > 0 &&  (
         <div className="ml-6 mt-3">
           {reply.replies_arr.map((nestedReply) => (
             <Reply

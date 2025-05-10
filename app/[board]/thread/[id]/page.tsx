@@ -2,7 +2,7 @@
 import Loading from "@/components/loading"
 import ThreadDetail from "@/components/thread-detail"
 import { chan } from "@/lib/4chan-client"
-import { FormatThreadToNestedComment } from "@/lib/utils"
+import { FormatThreadToNestedComment } from "@/lib/4chan-utils"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { Suspense } from "react"

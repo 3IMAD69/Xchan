@@ -52,17 +52,25 @@ export default function ThreadCard({ thread , boardId}: ThreadCardProps) {
         <div className="flex-shrink-0 mr-3">
           {thread.tim && thread.ext && (
             <Link href={`${boardId}/thread/${thread.no}`} className="block">
-              <div className="w-64 h-64 bg-gray-800 rounded-sm overflow-hidden">
+              <div
+                  className="rounded-sm overflow-hidden flex items-center justify-center"
+              >
                 <Image
                   src={`https://i.4cdn.org/${boardId}/${thread.tim}${thread.ext}`}
                   alt="Thread image"
-                  width={128}
-                  height={128}
-                  className="w-full h-full object-cover"
+                  width={256}
+                  height={256}
+                  className="max-w-full max-h-full object-contain"
                 />
+                {/* <HoverImage
+                src={`https://i.4cdn.org/${boardId}/${thread.tim}${thread.ext}`}
+                alt="Thread image"
+                className="rounded-sm"
+              /> */}
               </div>
             </Link>
           )}
+
           {!thread.tim && (
             <Link href={`${boardId}/thread/${thread.no}`} className="block">
               <div className="w-32 h-32 bg-gray-800 rounded-sm flex items-center justify-center text-gray-500">
@@ -81,12 +89,13 @@ export default function ThreadCard({ thread , boardId}: ThreadCardProps) {
           </div>
 
           <Link href={`${boardId}/thread/${thread.no}`} className="block">
-            <div
+            <span
               className="text-sm whitespace-pre-wrap break-words text-gray-200"
               dangerouslySetInnerHTML={{
-                __html: formatContent(thread.com || ""),
+                __html: formatContent(thread.com || "").slice(0, 1000) + "...",
               }}
-            />
+            >
+            </span>
           </Link>
 
           <div className="mt-2 flex items-center text-xs text-gray-500">
