@@ -1,5 +1,5 @@
 import { Thread, ThreadIndex } from "4chan-ts";
-
+import { htmlToText } from 'html-to-text';
 
 // extend ThreadIndex interface to include replies_arr
 declare module "4chan-ts" {
@@ -130,6 +130,24 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
     return post;
   });
 
+  // Convert HTML to text for all posts and their replies
+  filteredPosts.forEach(post => {
+    // Convert HTML to text for the main post content
+    if (post.com) {
+      post.com = htmlToText(post.com, { wordwrap: false });
+    }
+
+    // Convert HTML to text for all replies in the post's replies_arr
+    if (post.replies_arr && post.replies_arr.length > 0) {
+      post.replies_arr.forEach(reply => {
+        if (reply.com) {
+          reply.com = htmlToText(reply.com, { wordwrap: false })
+                            .replace(/>>\d+/g, '')// this for removing the >>123456
+                            .replace(/^\s+|\s+$/gm, ''); // Trim leading and trailing whitespace
+        }
+      });
+    }
+  });
   console.log(filteredPosts);
   return filteredPosts;
 };

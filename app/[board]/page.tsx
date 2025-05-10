@@ -36,6 +36,8 @@ export default async function BoardPage(
     )
   }
 
+  //html to text for Threads
+
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="sticky top-0 z-10 border-b border-gray-800 bg-black p-4">

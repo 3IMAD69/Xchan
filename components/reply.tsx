@@ -54,10 +54,12 @@ export default function Reply({ reply , boardId }: ReplyProps) {
 
           <div
             className="mt-1 whitespace-pre-wrap break-words"
-            dangerouslySetInnerHTML={{
-              __html: formatContent(reply.com || ""),
-            }}
-          />
+            // dangerouslySetInnerHTML={{
+            //   __html: formatContent(reply.com || ""),
+            // }}
+          >
+            {reply.com}
+          </div>
 
           {reply.tim && reply.ext && (
             <div className="mt-2 rounded-md overflow-hidden">

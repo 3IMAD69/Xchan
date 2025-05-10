@@ -39,12 +39,6 @@ export default function ThreadCard({ thread , boardId}: ThreadCardProps) {
   }
 
   // Format the post content - handle greentext and quotes
-  const formatContent = (text: string) => {
-    if (!text) return ""
-
-    // Replace >text with greentext styling
-    return text.replace(/^&gt;(.+)$/gm, '<span class="text-green-500">$&</span>')
-  }
 
   return (
     <div className="border-b border-gray-800 py-2 px-2 hover:bg-gray-900/50">
@@ -92,7 +86,7 @@ export default function ThreadCard({ thread , boardId}: ThreadCardProps) {
             <span
               className="text-sm whitespace-pre-wrap break-words text-gray-200"
               dangerouslySetInnerHTML={{
-                __html: formatContent(thread.com || "").slice(0, 1000) + "...",
+                __html: thread.com?.slice(0, 1000) + "...",
               }}
             >
             </span>
