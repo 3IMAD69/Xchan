@@ -26,13 +26,6 @@ export default function Reply({ reply , boardId }: ReplyProps) {
     hour12: false,
   })
 
-  // Format the post content - handle greentext and quotes
-  const formatContent = (text: string) => {
-    if (!text) return ""
-
-    // Replace >text with greentext styling
-    return text.replace(/^&gt;(.+)$/gm, '<span class="text-green-500">$&</span>')
-  }
 
   // const replyUrl = `/thread/${threadId || reply.threadId}?reply=${reply.no}&board=${boardId}`
 
