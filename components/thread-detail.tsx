@@ -69,7 +69,7 @@ export default function ThreadDetail({ op , replies, boardId }: ThreadDetailProp
                   alt="op image"
                   width={600}
                   height={400}
-                  className="max-h-[400px] w-auto object-contain"
+                  className="w-full h-auto max-h-[500px] object-contain"
                 />
               </div>
             )}

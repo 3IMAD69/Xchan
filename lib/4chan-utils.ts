@@ -67,7 +67,6 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
           const segmentStartIndex = linkInfo.index;
           const segmentEndIndex = (i + 1 < replyLinks.length) ? replyLinks[i+1].index : commentHtml.length;
           const extractedCom = commentHtml.substring(segmentStartIndex, segmentEndIndex).trim();
-
           // Store this segment as the reply to OP
           postRepliesDirectlyToOP.set(currentPost.no, extractedCom);
         }
@@ -117,24 +116,30 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
   });
 
   // Process the filtered posts
-  const filteredPosts = posts.map(post => {
+  const filteredPosts = posts.filter(post => {
+    // If this post only replies to someone other than OP (and not to OP),
+    // exclude it from the main list since it's already nested
+    if (nestedPostsIds.has(post.no) && !postRepliesDirectlyToOP.has(post.no)) {
+      return false;  // Filter out posts that are exclusively nested replies
+    }
+
     // If this post replies to someone other than OP but also to OP
     if (nestedPostsIds.has(post.no) && postRepliesDirectlyToOP.has(post.no)) {
-      // Create a modified version that only contains the reply to OP
-      const modifiedPost = {
-        ...post,
-        com: postRepliesDirectlyToOP.get(post.no)
-      };
-      return modifiedPost;
+      // Keep it but modify it to only contain the reply to OP
+      post.com = postRepliesDirectlyToOP.get(post.no);
     }
-    return post;
+
+    return true;  // Keep all other posts
   });
 
   // Convert HTML to text for all posts and their replies
   filteredPosts.forEach(post => {
+    if (post.no == op.no)
+        return;
     // Convert HTML to text for the main post content
     if (post.com) {
-      post.com = htmlToText(post.com, { wordwrap: false });
+      post.com = htmlToText(post.com, { wordwrap: false }).replace(/>>\d+/g, '')// this for removing the >>123456
+                                                          .replace(/^\s+|\s+$/gm, '');
     }
 
     // Convert HTML to text for all replies in the post's replies_arr
@@ -148,6 +153,6 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
       });
     }
   });
-  console.log(filteredPosts);
+  // console.log(filteredPosts);
   return filteredPosts;
 };
