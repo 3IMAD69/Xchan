@@ -144,15 +144,24 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
 
     // Convert HTML to text for all replies in the post's replies_arr
     if (post.replies_arr && post.replies_arr.length > 0) {
-      post.replies_arr.forEach(reply => {
-        if (reply.com) {
-          reply.com = htmlToText(reply.com, { wordwrap: false })
-                            .replace(/>>\d+/g, '')// this for removing the >>123456
-                            .replace(/^\s+|\s+$/gm, ''); // Trim leading and trailing whitespace
-        }
-      });
+      processRepliesRecursively(post.replies_arr);
     }
   });
-  // console.log(filteredPosts);
+  console.log(filteredPosts);
   return filteredPosts;
 };
+
+function processRepliesRecursively(replies: Thread[]) {
+  for (const reply of replies) {
+    if (reply.com) {
+      reply.com = htmlToText(reply.com, { wordwrap: false })
+                       .replace(/>>\d+/g, '')  // Remove >>123456
+                       .replace(/^\s+|\s+$/gm, '');  // Trim whitespace
+    }
+
+    // Recursively process any nested replies
+    if (reply.replies_arr && reply.replies_arr.length > 0) {
+      processRepliesRecursively(reply.replies_arr);
+    }
+  }
+}

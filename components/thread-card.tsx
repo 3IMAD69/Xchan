@@ -78,7 +78,7 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
         <div className="flex-1 min-w-0">
           {/* Header */}
           <div className="flex flex-wrap items-center text-base mb-1.5">
-            <span className="text-green-500 font-medium">Anonymous</span>
+            <span className="text-green-500 font-medium">Anon</span>
             <span className="text-gray-500 mx-1">·</span>
             <span className="text-gray-500">{formattedDate}</span>
             <span className="text-gray-500 mx-1">·</span>

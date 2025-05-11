@@ -42,7 +42,7 @@ export default async function ThreadPage(
     <div className="min-h-screen bg-black text-white">
       <header className="sticky top-0 z-10 border-b border-gray-800 bg-black p-4">
         <div className="mx-auto flex max-w-4xl items-center">
-          <Link href={`/${board}`} className="mr-4 rounded-full p-2 hover:bg-gray-800">
+          <Link href={`/${board}`} className="mr-4 rounded-full p-2 hover:bg-gray-800" prefetch={true}>
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <h1 className="text-xl font-bold">{data.posts[0].semantic_url && data.posts[0].semantic_url.replaceAll("-"," ")}</h1>

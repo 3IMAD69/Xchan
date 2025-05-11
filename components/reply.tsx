@@ -40,7 +40,7 @@ export default function Reply({ reply , boardId }: ReplyProps) {
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center text-sm mb-1">
-            <span className="text-green-500 font-medium">Anonymous</span>
+            <span className="text-green-500 font-medium">Anon</span>
             <span className="text-gray-500 mx-1">{formattedDate}</span>
             <span className="text-gray-500">No.{reply.no}</span>
           </div>
