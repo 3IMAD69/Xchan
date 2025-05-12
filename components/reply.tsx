@@ -3,7 +3,8 @@
 import { Thread } from "4chan-ts"
 import { Bookmark, MessageCircle, Share } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { PhotoView } from 'react-photo-view'
 
 interface ReplyProps {
   reply: Thread
@@ -58,7 +59,11 @@ const formatContent = (content:string) => {
 
 export default function Reply({ reply , boardId }: ReplyProps) {
   const [showReplies, setShowReplies] = useState(false)
+  const [imageURL, setImageURL] = useState(``)
 
+  useEffect(() => {
+    console.log("rendered : ", imageURL)
+  },[imageURL])
   if (reply.resto == 0) // op , dont want it in comment ,
       return ;
 
@@ -70,7 +75,6 @@ export default function Reply({ reply , boardId }: ReplyProps) {
     minute: "2-digit",
     hour12: false,
   })
-
 
   // const replyUrl = `/thread/${threadId || reply.threadId}?reply=${reply.no}&board=${boardId}`
 
@@ -101,14 +105,33 @@ export default function Reply({ reply , boardId }: ReplyProps) {
           {reply.com && formatContent(reply.com)}
 
           {reply.tim && reply.ext && (
-            <div className="mt-2 rounded-md overflow-hidden">
-              <Image
-                src={`https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
-                alt="Reply image"
-                width={600}
-                height={400}
-                className="max-h-[400px] w-auto object-contain"
-              />
+            <div className="mt-2 rounded-md overflow-hidden cursor-pointer">
+              {/* <PhotoProvider
+                maskOpacity={0.7}
+                > */}
+                  {imageURL != '' ? <PhotoView key={reply.no} src={imageURL}>
+                    <Image
+                      src={`https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
+                      alt="Reply image"
+                      width={600}
+                      height={400}
+                      className="max-h-[400px] w-auto object-contain"
+                      />
+                    </PhotoView>
+                     :
+                      <Image
+                      src={`https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
+                      alt="Reply image"
+                      width={600}
+                      height={400}
+                      className="max-h-[400px] w-auto object-contain"
+                      onLoad={(e) => {
+                        setImageURL(e.currentTarget.src)
+                      }}
+                      loading="eager"
+                      />
+                     }
+            {/* </PhotoProvider> */}
             </div>
           )}
 
@@ -158,11 +181,11 @@ export default function Reply({ reply , boardId }: ReplyProps) {
       {showReplies && reply.replies_arr.length > 0 &&  (
         <div className="ml-6 mt-3">
           {reply.replies_arr.map((nestedReply) => (
-            <Reply
-              key={nestedReply.no}
-              reply={nestedReply}
-              boardId={boardId}
-            />
+              <Reply
+                key={nestedReply.no}
+                reply={nestedReply}
+                boardId={boardId}
+              />
           ))}
         </div>
       )}

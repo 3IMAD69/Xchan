@@ -2,6 +2,7 @@ import type React from "react"
 import "@/app/globals.css"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
+import 'react-photo-view/dist/react-photo-view.css';
 
 const inter = Inter({ subsets: ["latin"] })
 

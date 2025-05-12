@@ -73,3 +73,7 @@ export default async function BoardPage(
     </div>
   )
 }
+
+
+
+

@@ -4,6 +4,7 @@ import { Thread } from "4chan-ts"
 import Reply from "@/components/reply"
 import { Bookmark, MessageCircle, Share } from "lucide-react"
 import Image from "next/image"
+import { PhotoProvider } from "react-photo-view"
 
 interface ThreadDetailProps {
   op: Thread
@@ -119,16 +120,21 @@ export default function ThreadDetail({ op , replies, boardId }: ThreadDetailProp
         {replies.length === 0 ? (
           <div className="py-4 text-center text-gray-500">No replies yet</div>
         ) : (
-          <div className="space-y-1">
-            {replies.map((reply) => (
-              <Reply
+          <PhotoProvider
+          maskOpacity={0.7}
+        >
+            <div className="space-y-1">
+              {replies.map((reply) => (
+
+                <Reply
                 key={reply.no}
                 reply={reply}
                 // threadId={op.no}
                 boardId={boardId}
-              />
-            ))}
-          </div>
+                />
+              ))}
+            </div>
+        </PhotoProvider>
         )}
       </div>
     </div>
