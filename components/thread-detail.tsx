@@ -122,6 +122,14 @@ export default function ThreadDetail({ op , replies, boardId }: ThreadDetailProp
         ) : (
           <PhotoProvider
           maskOpacity={0.7}
+           overlayRender={({ overlay }) => {
+            return (
+                <div>{overlay}</div>
+            );
+          }}
+          // toolbarRender={({ rotate, onRotate }) => {
+          //   return <svg className="PhotoView-Slider__toolbarIcon" onClick={() => onRotate(rotate + 90)} />;
+          // }}
         >
             <div className="space-y-1">
               {replies.map((reply) => (
