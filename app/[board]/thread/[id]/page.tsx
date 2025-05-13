@@ -12,7 +12,6 @@ export default async function ThreadPage({
   params: Promise<{ id: number; board: string }>;
 }) {
   const { id, board } = await params;
-  console.log(`Board: ${board}, Thread ID: ${id}`);
   const { data, error } = await chan.getThread(board, id);
   if (error) {
     return (

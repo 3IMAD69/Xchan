@@ -3,7 +3,7 @@
 import { Thread } from "4chan-ts";
 import { Bookmark, MessageCircle, Share } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PhotoView } from "react-photo-view";
 import { Overlay } from "./Overlay";
 
@@ -75,9 +75,6 @@ export default function Reply({ reply, boardId }: ReplyProps) {
   const [showReplies, setShowReplies] = useState(false);
   const [imageURL, setImageURL] = useState(``);
 
-  useEffect(() => {
-    console.log("rendered : ", imageURL);
-  }, [imageURL]);
   if (reply.resto == 0)
     // op , dont want it in comment ,
     return;

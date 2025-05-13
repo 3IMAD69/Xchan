@@ -163,7 +163,7 @@ export const FormatThreadToNestedComment = async (Threads: ThreadIndex) => {
       processRepliesRecursively(post.replies_arr);
     }
   });
-  console.log(filteredPosts);
+  // console.log(filteredPosts);
   return filteredPosts;
 };
 
