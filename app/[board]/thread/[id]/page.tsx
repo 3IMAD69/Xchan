@@ -2,6 +2,7 @@ import Loading from "@/components/loading";
 import ThreadDetail from "@/components/thread-detail";
 import { chan } from "@/lib/4chan-client";
 import { FormatThreadToNestedComment } from "@/lib/4chan-utils";
+import { htmlToText } from "html-to-text";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -36,7 +37,15 @@ export default async function ThreadPage({
     );
   }
   const ThreadWithNestedComments = await FormatThreadToNestedComment(data);
-
+  if (ThreadWithNestedComments[0].com) {
+    ThreadWithNestedComments[0].com = htmlToText(
+      ThreadWithNestedComments[0].com,
+      {
+        wordwrap: false,
+        preserveNewlines: true,
+      }
+    );
+  }
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="sticky top-0 z-10 border-b border-gray-800 bg-black p-4">

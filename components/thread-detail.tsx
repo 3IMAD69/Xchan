@@ -5,6 +5,7 @@ import Reply from "@/components/reply";
 import { Bookmark, MessageCircle, Share } from "lucide-react";
 import Image from "next/image";
 import { PhotoProvider } from "react-photo-view";
+import { formatContent } from "./formatContent";
 
 interface ThreadDetailProps {
   op: Thread;
@@ -31,17 +32,6 @@ export default function ThreadDetail({
     hour12: false,
   });
 
-  // Format the post content - handle greentext and quotes
-  const formatContent = (text: string) => {
-    if (!text) return "";
-
-    // Replace >text with greentext styling
-    return text.replace(
-      /^&gt;(.+)$/gm,
-      '<span class="text-green-500">$&</span>'
-    );
-  };
-
   return (
     <div className="space-y-4">
       <div className="border-b border-gray-800 pb-4">
@@ -64,12 +54,9 @@ export default function ThreadDetail({
               )}
             </div>
 
-            <div
-              className="mt-1 whitespace-pre-wrap break-words"
-              dangerouslySetInnerHTML={{
-                __html: formatContent(op.com || ""),
-              }}
-            />
+            <div className="mt-1 whitespace-pre-wrap break-words">
+              {formatContent(op.com)}
+            </div>
 
             {op.tim && op.ext && (
               <div className="mt-2 rounded-md overflow-hidden">
