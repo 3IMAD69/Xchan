@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-export const Overlay= ({ children }: PropsWithChildren) => {
+export const Overlay = ({ children }: PropsWithChildren) => {
   return (
     // <div className="absolute left-0 bottom-0 p-2 w-full min-h-24 text-sm text-slate-300 z-50 bg-black/50">
     //   {children}

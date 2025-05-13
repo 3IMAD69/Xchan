@@ -1,23 +1,24 @@
-"use client"
+"use client";
 
-import { Thread } from "4chan-ts"
-import Reply from "@/components/reply"
-import { Bookmark, MessageCircle, Share } from "lucide-react"
-import Image from "next/image"
-import { PhotoProvider } from "react-photo-view"
+import { Thread } from "4chan-ts";
+import Reply from "@/components/reply";
+import { Bookmark, MessageCircle, Share } from "lucide-react";
+import Image from "next/image";
+import { PhotoProvider } from "react-photo-view";
 
 interface ThreadDetailProps {
-  op: Thread
-  replies: Thread[]
-  boardId: string
+  op: Thread;
+  replies: Thread[];
+  boardId: string;
 }
 
-export default function ThreadDetail({ op , replies, boardId }: ThreadDetailProps) {
+export default function ThreadDetail({
+  op,
+  replies,
+  boardId,
+}: ThreadDetailProps) {
   // const [showShareOptions, setShowShareOptions] = useState(false)
   // const { toast } = useToast()
-
-
-
 
   // const timestamp = new Date(op.time * 1000)
   // const timeAgo = formatDistanceToNow(timestamp, { addSuffix: true })
@@ -28,15 +29,18 @@ export default function ThreadDetail({ op , replies, boardId }: ThreadDetailProp
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-  })
+  });
 
   // Format the post content - handle greentext and quotes
   const formatContent = (text: string) => {
-    if (!text) return ""
+    if (!text) return "";
 
     // Replace >text with greentext styling
-    return text.replace(/^&gt;(.+)$/gm, '<span class="text-green-500">$&</span>')
-  }
+    return text.replace(
+      /^&gt;(.+)$/gm,
+      '<span class="text-green-500">$&</span>'
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -53,7 +57,11 @@ export default function ThreadDetail({ op , replies, boardId }: ThreadDetailProp
               <span className="text-green-500 font-medium">Anonymous</span>
               <span className="text-gray-500 mx-1">{formattedDate}</span>
               <span className="text-gray-500">No.{op.no}</span>
-              {op.sub && <span className="ml-2 text-gray-300 font-semibold">{op.sub}</span>}
+              {op.sub && (
+                <span className="ml-2 text-gray-300 font-semibold">
+                  {op.sub}
+                </span>
+              )}
             </div>
 
             <div
@@ -88,8 +96,9 @@ export default function ThreadDetail({ op , replies, boardId }: ThreadDetailProp
 
                 <div className="relative">
                   <button
-                  // onClick={handleShare}
-                   className="flex items-center gap-1 hover:text-gray-300">
+                    // onClick={handleShare}
+                    className="flex items-center gap-1 hover:text-gray-300"
+                  >
                     <Share size={18} />
                   </button>
 
@@ -121,30 +130,27 @@ export default function ThreadDetail({ op , replies, boardId }: ThreadDetailProp
           <div className="py-4 text-center text-gray-500">No replies yet</div>
         ) : (
           <PhotoProvider
-          maskOpacity={0.7}
-           overlayRender={({ overlay }) => {
-            return (
-                <div>{overlay}</div>
-            );
-          }}
-          // toolbarRender={({ rotate, onRotate }) => {
-          //   return <svg className="PhotoView-Slider__toolbarIcon" onClick={() => onRotate(rotate + 90)} />;
-          // }}
-        >
+            maskOpacity={0.7}
+            overlayRender={({ overlay }) => {
+              return <div>{overlay}</div>;
+            }}
+            // toolbarRender={({ rotate, onRotate }) => {
+            //   return <svg className="PhotoView-Slider__toolbarIcon" onClick={() => onRotate(rotate + 90)} />;
+            // }}
+          >
             <div className="space-y-1">
               {replies.map((reply) => (
-
                 <Reply
-                key={reply.no}
-                reply={reply}
-                // threadId={op.no}
-                boardId={boardId}
+                  key={reply.no}
+                  reply={reply}
+                  // threadId={op.no}
+                  boardId={boardId}
                 />
               ))}
             </div>
-        </PhotoProvider>
+          </PhotoProvider>
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -1,34 +1,33 @@
 import { Thread, ThreadIndex } from "4chan-ts";
-import { htmlToText } from 'html-to-text';
+import { htmlToText } from "html-to-text";
 
 // extend ThreadIndex interface to include replies_arr
 declare module "4chan-ts" {
   interface Thread {
-    replies_arr: Thread[]
-    isReplyInstance : boolean
+    replies_arr: Thread[];
+    isReplyInstance: boolean;
   }
 }
 
-function findReplyLinksInComment(htmlString : string) {
+function findReplyLinksInComment(htmlString: string) {
   const links = [];
   // Regex to find <a href="#pPOST_ID" ...> tags
   // It captures the POST_ID.
   const regex = /<a href="#p(\d+)"[^>]*>/g;
   let match;
   while ((match = regex.exec(htmlString)) !== null) {
-      links.push({
-          id: match[1],       // The captured post ID
-          tag: match[0],      // The full matched <a> tag
-          index: match.index  // The starting index of the tag in htmlString
-      });
+    links.push({
+      id: match[1], // The captured post ID
+      tag: match[0], // The full matched <a> tag
+      index: match.index, // The starting index of the tag in htmlString
+    });
   }
   // Ensure links are sorted by their appearance order (though regex.exec usually does this)
   links.sort((a, b) => a.index - b.index);
   return links;
 }
 
-
-export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
+export const FormatThreadToNestedComment = async (Threads: ThreadIndex) => {
   // if (!Threads || !Threads.posts || Threads.posts.length === 0) {
   //   console.warn("FormatThreadToNestedComment: Input Threads or Threads.posts is empty or invalid.");
   //   return null;
@@ -42,14 +41,14 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
 
   // First pass: Initialize each original post with an empty 'replies' array
   // and add it to the map. This 'replies' array will store posts that reply TO this post.
-  posts.forEach(post => {
+  posts.forEach((post) => {
     post.replies_arr = [];
     postMap.set(post.no, post);
   });
 
   // Second pass: Iterate through each post. If it replies_arr to others,
   // create appropriate reply instances and add them to the parents' 'replies_arr' arrays.
-  posts.forEach(currentPost => {
+  posts.forEach((currentPost) => {
     const originalPostInMap = postMap.get(currentPost.no); // Get the definitive object from the map
     const commentHtml = currentPost.com;
 
@@ -65,8 +64,13 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
         if (parentPostId === op.no) {
           // Calculate the segment for the OP reply
           const segmentStartIndex = linkInfo.index;
-          const segmentEndIndex = (i + 1 < replyLinks.length) ? replyLinks[i+1].index : commentHtml.length;
-          const extractedCom = commentHtml.substring(segmentStartIndex, segmentEndIndex).trim();
+          const segmentEndIndex =
+            i + 1 < replyLinks.length
+              ? replyLinks[i + 1].index
+              : commentHtml.length;
+          const extractedCom = commentHtml
+            .substring(segmentStartIndex, segmentEndIndex)
+            .trim();
           // Store this segment as the reply to OP
           postRepliesDirectlyToOP.set(currentPost.no, extractedCom);
         }
@@ -83,9 +87,14 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
           // The segment starts at the current link's index.
           const segmentStartIndex = linkInfo.index;
           // The segment ends at the start of the *next* reply link, or at the end of the comment.
-          const segmentEndIndex = (i + 1 < replyLinks.length) ? replyLinks[i+1].index : commentHtml.length;
+          const segmentEndIndex =
+            i + 1 < replyLinks.length
+              ? replyLinks[i + 1].index
+              : commentHtml.length;
 
-          const extractedCom = commentHtml.substring(segmentStartIndex, segmentEndIndex).trim();
+          const extractedCom = commentHtml
+            .substring(segmentStartIndex, segmentEndIndex)
+            .trim();
 
           // Create a new "reply instance" object.
           // This instance represents currentPost AS A REPLY TO parentPostInMap.
@@ -97,12 +106,19 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
             // reply to currentPost (e.g., post D replies_arr to currentPost),
             // they will appear in replyInstance.replies_arr.
             replies_arr: originalPostInMap?.replies_arr || [],
-            isReplyInstance: true // Custom flag to identify this as a specialized instance
+            isReplyInstance: true, // Custom flag to identify this as a specialized instance
           };
 
           // Add this specialized replyInstance to the parent's replies array.
           // Avoid adding duplicate *instances* if logic somehow allows (though unlikely here).
-          if (!parentPostInMap.replies_arr.some(r => r.isReplyInstance && r.no === replyInstance.no && r.com === replyInstance.com)) {
+          if (
+            !parentPostInMap.replies_arr.some(
+              (r) =>
+                r.isReplyInstance &&
+                r.no === replyInstance.no &&
+                r.com === replyInstance.com
+            )
+          ) {
             parentPostInMap.replies_arr.push(replyInstance);
 
             // If it replies to anyone except OP, mark for potential filtering
@@ -116,11 +132,11 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
   });
 
   // Process the filtered posts
-  const filteredPosts = posts.filter(post => {
+  const filteredPosts = posts.filter((post) => {
     // If this post only replies to someone other than OP (and not to OP),
     // exclude it from the main list since it's already nested
     if (nestedPostsIds.has(post.no) && !postRepliesDirectlyToOP.has(post.no)) {
-      return false;  // Filter out posts that are exclusively nested replies
+      return false; // Filter out posts that are exclusively nested replies
     }
 
     // If this post replies to someone other than OP but also to OP
@@ -129,17 +145,17 @@ export const FormatThreadToNestedComment = async (Threads : ThreadIndex) => {
       post.com = postRepliesDirectlyToOP.get(post.no);
     }
 
-    return true;  // Keep all other posts
+    return true; // Keep all other posts
   });
 
   // Convert HTML to text for all posts and their replies
-  filteredPosts.forEach(post => {
-    if (post.no == op.no)
-        return;
+  filteredPosts.forEach((post) => {
+    if (post.no == op.no) return;
     // Convert HTML to text for the main post content
     if (post.com) {
-      post.com = htmlToText(post.com, { wordwrap: false }).replace(/>>\d+/g, '')// this for removing the >>123456
-                                                          .replace(/^\s+|\s+$/gm, '');
+      post.com = htmlToText(post.com, { wordwrap: false })
+        .replace(/>>\d+/g, "") // this for removing the >>123456
+        .replace(/^\s+|\s+$/gm, "");
     }
 
     // Convert HTML to text for all replies in the post's replies_arr
@@ -155,8 +171,8 @@ function processRepliesRecursively(replies: Thread[]) {
   for (const reply of replies) {
     if (reply.com) {
       reply.com = htmlToText(reply.com, { wordwrap: false })
-                       .replace(/>>\d+/g, '')  // Remove >>123456
-                       .replace(/^\s+|\s+$/gm, '');  // Trim whitespace
+        .replace(/>>\d+/g, "") // Remove >>123456
+        .replace(/^\s+|\s+$/gm, ""); // Trim whitespace
     }
 
     // Recursively process any nested replies
