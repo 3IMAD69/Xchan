@@ -70,7 +70,7 @@ export default function Reply({ reply, boardId }: ReplyProps) {
             <span className="text-gray-500">No.{reply.no}</span>
           </div>
 
-          {reply.com && formatContent(reply.com)}
+          {formatContent(reply.com)}
 
           {reply.tim && reply.ext && (
             <div className="mt-2 rounded-md overflow-hidden cursor-pointer">
