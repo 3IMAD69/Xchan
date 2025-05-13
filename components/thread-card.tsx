@@ -102,7 +102,7 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
               dangerouslySetInnerHTML={{
                 __html: thread.com?.slice(0, 500) || "",
               }}
-            >
+              >
               {/* {thread.com} */}
             </span>
           </Link>
