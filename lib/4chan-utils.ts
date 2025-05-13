@@ -153,7 +153,10 @@ export const FormatThreadToNestedComment = async (Threads: ThreadIndex) => {
     if (post.no == op.no) return;
     // Convert HTML to text for the main post content
     if (post.com) {
-      post.com = htmlToText(post.com, { wordwrap: false })
+      post.com = htmlToText(post.com, {
+        wordwrap: false,
+        preserveNewlines: true,
+      })
         .replace(/>>\d+/g, "") // this for removing the >>123456
         .replace(/^\s+|\s+$/gm, "");
     }
@@ -170,7 +173,10 @@ export const FormatThreadToNestedComment = async (Threads: ThreadIndex) => {
 function processRepliesRecursively(replies: Thread[]) {
   for (const reply of replies) {
     if (reply.com) {
-      reply.com = htmlToText(reply.com, { wordwrap: false })
+      reply.com = htmlToText(reply.com, {
+        wordwrap: false,
+        preserveNewlines: true,
+      })
         .replace(/>>\d+/g, "") // Remove >>123456
         .replace(/^\s+|\s+$/gm, ""); // Trim whitespace
     }

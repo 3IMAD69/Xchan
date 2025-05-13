@@ -1,5 +1,3 @@
-"use client";
-
 import type { Catalog } from "4chan-ts";
 import ThreadCard from "@/components/thread-card";
 

@@ -5,6 +5,7 @@ import { Bookmark, Hash, MessageCircle, Share } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { formatContent } from "./formatContent";
 
 interface ThreadCardProps {
   thread: CatalogThreadPost;
@@ -96,16 +97,9 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
           )}
 
           {/* Thread content */}
-          <Link href={`${boardId}/thread/${thread.no}`} className="block mb-2">
-            <span
-              className="text-base whitespace-pre-wrap break-words text-white leading-relaxed"
-              dangerouslySetInnerHTML={{
-                __html: thread.com?.slice(0, 500) || "",
-              }}
-            >
-              {/* {thread.com} */}
-            </span>
-          </Link>
+          <span className="text-base whitespace-pre-wrap break-words text-white leading-relaxed">
+            {formatContent(thread.com)}
+          </span>
 
           {/* Thread image */}
           {thread.tim && thread.ext && (

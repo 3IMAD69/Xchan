@@ -21,6 +21,7 @@ export default async function Home() {
   data.boards.forEach((board) => {
     board.meta_description = htmlToText(board.meta_description, {
       wordwrap: false,
+      preserveNewlines: true,
     });
   });
   return (

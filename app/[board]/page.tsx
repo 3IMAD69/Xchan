@@ -1,6 +1,7 @@
 import Loading from "@/components/loading";
 import ThreadList from "@/components/thread-list";
 import { chan } from "@/lib/4chan-client";
+import { htmlToText } from "html-to-text";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -35,6 +36,15 @@ export default async function BoardPage({
   }
 
   //html to text for Threads
+  Threads.forEach((thread) => {
+    thread.threads.forEach((th) => {
+      if (th.com === undefined) return;
+      th.com = htmlToText(th.com, {
+        wordwrap: false,
+        preserveNewlines: true,
+      });
+    });
+  });
 
   return (
     <div className="min-h-screen bg-black text-white">
