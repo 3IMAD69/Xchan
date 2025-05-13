@@ -99,11 +99,11 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
           <Link href={`${boardId}/thread/${thread.no}`} className="block mb-2">
             <span
               className="text-base whitespace-pre-wrap break-words text-white leading-relaxed"
-              // dangerouslySetInnerHTML={{
-              //   __html: thread.com?.slice(0, 500) || "",
-              // }}
+              dangerouslySetInnerHTML={{
+                __html: thread.com?.slice(0, 500) || "",
+              }}
             >
-              {thread.com}
+              {/* {thread.com} */}
             </span>
           </Link>
 
