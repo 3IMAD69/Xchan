@@ -2,7 +2,6 @@
 
 import type { CatalogThreadPost } from "4chan-ts";
 import { Bookmark, Hash, MessageCircle, Share } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { formatContent } from "./formatContent";
@@ -108,7 +107,7 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
               className="block mb-3"
             >
               <div className="rounded-2xl overflow-hidden  mt-2">
-                <Image
+                <img
                   src={`https://i.4cdn.org/${boardId}/${thread.tim}${thread.ext}`}
                   alt="Thread image"
                   width={550}
