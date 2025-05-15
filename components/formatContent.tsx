@@ -1,4 +1,7 @@
-export const formatContent = (content: string | undefined) => {
+export const formatContent = (
+  content: string | undefined,
+  truncate: boolean = false
+) => {
   if (typeof content !== "string") return "";
   if (!content) return "";
 
@@ -6,19 +9,25 @@ export const formatContent = (content: string | undefined) => {
   const elements = [];
   let lastIndex = 0;
 
+  // Clone the content to avoid mutations
+  const contentStr = String(content);
+
+  // If truncation is needed and content is longer than 200 characters
+  const processedContent =
+    truncate && contentStr.length > 300
+      ? contentStr.substring(0, 300) + "..."
+      : contentStr;
+
   // Regex to match lines starting with >
   const greentextRegex = /^>.*$/gm;
   let match;
 
-  // Clone the content to avoid mutations
-  const contentStr = String(content);
-
-  while ((match = greentextRegex.exec(contentStr)) !== null) {
+  while ((match = greentextRegex.exec(processedContent)) !== null) {
     // Add text before the match
     if (match.index > lastIndex) {
       elements.push(
         <span key={`text-${lastIndex}`}>
-          {contentStr.substring(lastIndex, match.index)}
+          {processedContent.substring(lastIndex, match.index)}
         </span>
       );
     }
@@ -34,9 +43,11 @@ export const formatContent = (content: string | undefined) => {
   }
 
   // Add any remaining text
-  if (lastIndex < contentStr.length) {
+  if (lastIndex < processedContent.length) {
     elements.push(
-      <span key={`text-${lastIndex}`}>{contentStr.substring(lastIndex)}</span>
+      <span key={`text-${lastIndex}`}>
+        {processedContent.substring(lastIndex)}
+      </span>
     );
   }
 

@@ -1,5 +1,3 @@
-"use client";
-
 import type { Board } from "4chan-ts";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -14,6 +12,7 @@ export default function BoardList({ boards }: { boards: Board[] }) {
             key={board.board}
             href={`/${board.board}`}
             className="border border-gray-800 rounded-lg p-4 hover:bg-gray-900 transition-colors"
+            prefetch={true}
           >
             <div className="flex items-center justify-between">
               <div>

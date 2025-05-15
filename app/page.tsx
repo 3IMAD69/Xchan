@@ -1,8 +1,6 @@
 import BoardList from "@/components/board-list";
-import Loading from "@/components/loading";
 import { chan } from "@/lib/4chan-client";
 import { htmlToText } from "html-to-text";
-import { Suspense } from "react";
 
 export default async function Home() {
   const { data, error } = await chan.getBoards();
@@ -36,9 +34,7 @@ export default async function Home() {
       </header>
 
       <main className="mx-auto max-w-4xl p-4">
-        <Suspense fallback={<Loading />}>
-          <BoardList boards={data.boards} />
-        </Suspense>
+        <BoardList boards={data.boards} />
       </main>
     </div>
   );

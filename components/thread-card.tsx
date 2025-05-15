@@ -1,10 +1,7 @@
-"use client";
-
 import type { CatalogThreadPost } from "4chan-ts";
 import { Bookmark, Hash, MessageCircle, Share } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { formatContent } from "./formatContent";
 
 interface ThreadCardProps {
@@ -12,9 +9,11 @@ interface ThreadCardProps {
   boardId: string;
 }
 
+// keep this as a server comp no matter what
+
 export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
-  const [showShareOptions, setShowShareOptions] = useState(false);
-  const [bookmarked, setBookmarked] = useState(false);
+  // const [showShareOptions, setShowShareOptions] = useState(false);
+  // const [bookmarked, setBookmarked] = useState(false);
 
   // If thread is undefined, return a placeholder or null
   if (!thread) {
@@ -54,19 +53,20 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
       hour12: false,
     })
     .replace(",", "");
+  // const handleShare = () => {
+  //   setShowShareOptions(!showShareOptions);
+  // };
 
-  const handleShare = () => {
-    setShowShareOptions(!showShareOptions);
-  };
+  // const copyThreadLink = () => {
+  //   // Implementation for copying link
+  //   console.log("soon ...");
+  //   setShowShareOptions(false);
+  // };
 
-  const copyThreadLink = () => {
-    // Implementation for copying link
-    setShowShareOptions(false);
-  };
-
-  const toggleBookmark = () => {
-    setBookmarked(!bookmarked);
-  };
+  // const toggleBookmark = () => {
+  //   console.log("soon ...");
+  //   setBookmarked(!bookmarked);
+  // };
 
   return (
     <div className="border-b border-gray-800 px-4 py-4  hover:bg-gray-900/30 transition-colors">
@@ -90,16 +90,18 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
           </div>
 
           {/* Thread title if available */}
-          {thread.sub && (
-            <div className="text-lg font-bold text-white mb-1.5">
-              {thread.sub}
-            </div>
-          )}
+          <Link href={`${boardId}/thread/${thread.no}`} className="block mb-3 ">
+            {thread.sub && (
+              <div className="text-lg font-bold text-white mb-1.5">
+                {thread.sub}
+              </div>
+            )}
 
-          {/* Thread content */}
-          <span className="text-base whitespace-pre-wrap break-words text-white leading-relaxed">
-            {formatContent(thread.com)}
-          </span>
+            {/* Thread content */}
+            <span className="text-base whitespace-pre-wrap break-words text-white leading-relaxed">
+              {formatContent(thread.com, true)}
+            </span>
+          </Link>
 
           {/* Thread image */}
           {thread.tim && thread.ext && (
@@ -129,22 +131,24 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
             </button>
 
             <button
-              className={`group flex items-center ${bookmarked ? "text-blue-500" : "hover:text-blue-500"}`}
-              onClick={toggleBookmark}
+              className={`group flex items-center `}
+              // {bookmarked ? "text-blue-500" : "hover:text-blue-500"}`}
+              // onClick={toggleBookmark}
             >
               <div
-                className={`p-2 rounded-full ${bookmarked ? "bg-blue-500/10" : "group-hover:bg-blue-500/10"}`}
+                className={`p-2 rounded-full `}
+                // ${bookmarked ? "bg-blue-500/10" : "group-hover:bg-blue-500/10"}`}
               >
                 <Bookmark
                   size={20}
-                  fill={bookmarked ? "currentColor" : "none"}
+                  // fill={bookmarked ? "currentColor" : "none"}
                 />
               </div>
             </button>
 
             <div className="relative">
               <button
-                onClick={handleShare}
+                // onClick={handleShare}
                 className="group flex items-center hover:text-blue-500"
               >
                 <div className="p-2 rounded-full group-hover:bg-blue-500/10">
@@ -152,7 +156,7 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
                 </div>
               </button>
 
-              {showShareOptions && (
+              {/* {showShareOptions && (
                 <div className="absolute right-0 mt-2 w-48 rounded-xl shadow-lg bg-black ring-1 ring-gray-800 z-10">
                   <div className="py-1" role="menu" aria-orientation="vertical">
                     <button
@@ -164,7 +168,7 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
                     </button>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>

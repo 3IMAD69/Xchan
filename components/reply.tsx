@@ -92,7 +92,7 @@ export default function Reply({ reply, boardId }: ReplyProps) {
                 >
                   <Image
                     src={`https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
-                    alt="Reply image"
+                    alt={`Reply image ${reply.ext}`}
                     width={600}
                     height={400}
                     className="max-h-[400px] w-auto object-contain"
@@ -101,7 +101,7 @@ export default function Reply({ reply, boardId }: ReplyProps) {
               ) : (
                 <Image
                   src={`https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
-                  alt="Reply image"
+                  alt={`Reply image ${reply.ext}`}
                   width={600}
                   height={400}
                   className="max-h-[400px] w-auto object-contain"
