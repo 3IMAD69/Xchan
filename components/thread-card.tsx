@@ -89,7 +89,7 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
             <span className="text-gray-500">No.{thread.no}</span>
           </div>
 
-          {/* Thread title if available */}
+          {/* Not Prefetching , getThread is Expensive , instead ill use Suspense and a skeleton */}
           <Link href={`${boardId}/thread/${thread.no}`} className="block mb-3 ">
             {thread.sub && (
               <div className="text-lg font-bold text-white mb-1.5">
@@ -101,14 +101,9 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
             <span className="text-base whitespace-pre-wrap break-words text-white leading-relaxed">
               {formatContent(thread.com, true)}
             </span>
-          </Link>
 
-          {/* Thread image */}
-          {thread.tim && thread.ext && (
-            <Link
-              href={`${boardId}/thread/${thread.no}`}
-              className="block mb-3"
-            >
+            {/* Thread image */}
+            {thread.tim && thread.ext && (
               <div className="rounded-2xl overflow-hidden  mt-2">
                 <Image
                   src={`https://i.4cdn.org/${boardId}/${thread.tim}${thread.ext}`}
@@ -118,8 +113,8 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
                   className="max-w-full  object-contain"
                 />
               </div>
-            </Link>
-          )}
+            )}
+          </Link>
 
           {/* Action buttons */}
           <div className="flex items-center justify-between mt-3 max-w-md text-gray-500">
