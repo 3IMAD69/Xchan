@@ -109,6 +109,7 @@ export default function Reply({ reply, boardId }: ReplyProps) {
                     setImageURL(e.currentTarget.src);
                   }}
                   loading="eager"
+                  // priority={false}
                 />
               )}
             </div>

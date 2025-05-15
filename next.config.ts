@@ -3,7 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    remotePatterns: [new URL("https://i.4cdn.org/**")],
+    minimumCacheTTL: 31536000,
+    remotePatterns: [
+      new URL("https://i.4cdn.org/**"),
+      new URL("https://s.4cdn.org/**"),
+    ],
   },
 };
 

@@ -83,6 +83,15 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
           {/* Header */}
           <div className="flex flex-wrap items-center text-base mb-1.5">
             <span className="text-green-500 font-medium">Anon</span>
+            {thread.country && (
+              <Image
+                src={`https://s.4cdn.org/image/country/${thread.country.toLowerCase()}.gif`}
+                alt={thread.country_name || thread.country}
+                width={16}
+                height={11}
+                className="ml-1"
+              />
+            )}
             <span className="text-gray-500 mx-1">·</span>
             <span className="text-gray-500">{formattedDate}</span>
             <span className="text-gray-500 mx-1">·</span>
