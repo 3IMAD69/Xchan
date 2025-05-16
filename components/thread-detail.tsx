@@ -2,11 +2,11 @@
 
 import { Thread } from "4chan-ts";
 import Reply from "@/components/reply";
-import { Bookmark, MessageCircle, Share } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { formatContent } from "./formatContent";
+import ThreadSingleButtons from "./ThreadSingleButtons";
 
 interface ThreadDetailProps {
   op: Thread;
@@ -118,42 +118,7 @@ export default function ThreadDetail({
               </PhotoProvider>
             )}
 
-            <div className="mt-3 flex items-center justify-between text-gray-500">
-              <div className="flex items-center gap-1">
-                <MessageCircle size={18} />
-                <span>{op.replies || 0}</span>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <button className="flex items-center gap-1 hover:text-gray-300">
-                  <Bookmark size={18} />
-                </button>
-
-                <div className="relative">
-                  <button
-                    // onClick={handleShare}
-                    className="flex items-center gap-1 hover:text-gray-300"
-                  >
-                    <Share size={18} />
-                  </button>
-
-                  {/* {showShareOptions && (
-                    <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 z-10">
-                      <div className="py-1" role="menu" aria-orientation="vertical">
-                        <button
-                          onClick={copythreadLink}
-                          className="flex items-center w-full px-4 py-2 text-sm text-white hover:bg-gray-800"
-                          role="menuitem"
-                        >
-                          <LinkIcon size={16} className="mr-2" />
-                          Copy thread link
-                        </button>
-                      </div>
-                    </div>
-                  )} */}
-                </div>
-              </div>
-            </div>
+            <ThreadSingleButtons op={op} />
           </div>
         </div>
       </div>

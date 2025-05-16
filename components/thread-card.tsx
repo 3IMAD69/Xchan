@@ -1,8 +1,9 @@
 import type { CatalogThreadPost } from "4chan-ts";
-import { Bookmark, Hash, MessageCircle, Share } from "lucide-react";
+import { Hash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { formatContent } from "./formatContent";
+import ThreadCardButtons from "./ThreadCardButtons";
 
 interface ThreadCardProps {
   thread: CatalogThreadPost;
@@ -10,11 +11,7 @@ interface ThreadCardProps {
 }
 
 // keep this as a server comp no matter what
-
 export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
-  // const [showShareOptions, setShowShareOptions] = useState(false);
-  // const [bookmarked, setBookmarked] = useState(false);
-
   // If thread is undefined, return a placeholder or null
   if (!thread) {
     return (
@@ -53,20 +50,6 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
       hour12: false,
     })
     .replace(",", "");
-  // const handleShare = () => {
-  //   setShowShareOptions(!showShareOptions);
-  // };
-
-  // const copyThreadLink = () => {
-  //   // Implementation for copying link
-  //   console.log("soon ...");
-  //   setShowShareOptions(false);
-  // };
-
-  // const toggleBookmark = () => {
-  //   console.log("soon ...");
-  //   setBookmarked(!bookmarked);
-  // };
 
   return (
     <div className="border-b border-gray-800 px-4 py-4  hover:bg-gray-900/30 transition-colors">
@@ -125,56 +108,7 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
             )}
           </Link>
 
-          {/* Action buttons */}
-          <div className="flex items-center justify-between mt-3 max-w-md text-gray-500">
-            <button className="group flex items-center hover:text-blue-500">
-              <div className="p-2 rounded-full group-hover:bg-blue-500/10">
-                <MessageCircle size={20} />
-              </div>
-              <span className="text-base ml-1">{thread.replies || 0}</span>
-            </button>
-
-            <button
-              className={`group flex items-center `}
-              // {bookmarked ? "text-blue-500" : "hover:text-blue-500"}`}
-              // onClick={toggleBookmark}
-            >
-              <div
-                className={`p-2 rounded-full `}
-                // ${bookmarked ? "bg-blue-500/10" : "group-hover:bg-blue-500/10"}`}
-              >
-                <Bookmark
-                  size={20}
-                  // fill={bookmarked ? "currentColor" : "none"}
-                />
-              </div>
-            </button>
-
-            <div className="relative">
-              <button
-                // onClick={handleShare}
-                className="group flex items-center hover:text-blue-500"
-              >
-                <div className="p-2 rounded-full group-hover:bg-blue-500/10">
-                  <Share size={20} />
-                </div>
-              </button>
-
-              {/* {showShareOptions && (
-                <div className="absolute right-0 mt-2 w-48 rounded-xl shadow-lg bg-black ring-1 ring-gray-800 z-10">
-                  <div className="py-1" role="menu" aria-orientation="vertical">
-                    <button
-                      onClick={copyThreadLink}
-                      className="flex items-center w-full px-4 py-3 text-sm text-white hover:bg-gray-800"
-                      role="menuitem"
-                    >
-                      Copy link to thread
-                    </button>
-                  </div>
-                </div>
-              )} */}
-            </div>
-          </div>
+          <ThreadCardButtons thread={thread} boardId={boardId} />
         </div>
       </div>
     </div>
