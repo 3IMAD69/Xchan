@@ -5,8 +5,9 @@ import { Bookmark, MessageCircle, Share } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { PhotoView } from "react-photo-view";
-import { Overlay } from "./Overlay";
 import { formatContent } from "./formatContent";
+import { Overlay } from "./Overlay";
+import VidNotSupported from "./VidNotSupported";
 
 // Add this function to scroll to elements
 const scrollToElement = (id: string) => {
@@ -73,46 +74,56 @@ export default function Reply({ reply, boardId }: ReplyProps) {
           {formatContent(reply.com)}
 
           {reply.tim && reply.ext && (
-            <div className="mt-2 rounded-md overflow-hidden cursor-pointer">
-              {imageURL != "" ? (
-                <PhotoView
-                  key={reply.no}
-                  src={imageURL}
-                  overlay={
-                    <Overlay>
-                      <div onClick={handleOverlayClick}>
-                        {reply.com
-                          ? reply.com.length > 200
-                            ? reply.com.slice(0, 200) + "..."
-                            : reply.com
-                          : reply.filename + reply.ext}
-                      </div>
-                    </Overlay>
-                  }
-                >
-                  <Image
-                    src={`https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
-                    alt={`Reply image ${reply.ext}`}
-                    width={600}
-                    height={400}
-                    className="max-h-[400px] w-auto object-contain"
-                  />
-                </PhotoView>
-              ) : (
-                <Image
-                  src={`https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
-                  alt={`Reply image ${reply.ext}`}
-                  width={600}
-                  height={400}
-                  className="max-h-[400px] w-auto object-contain"
-                  onLoad={(e) => {
-                    setImageURL(e.currentTarget.src);
-                  }}
-                  loading="eager"
-                  // priority={false}
+            <>
+              {[".webm", ".mp4"].includes(reply.ext.toLowerCase()) ? (
+                <VidNotSupported
+                  ext={reply.ext}
+                  tim={reply.tim}
+                  boardId={boardId}
                 />
+              ) : (
+                <div className="mt-2 rounded-md overflow-hidden cursor-pointer">
+                  {imageURL != "" ? (
+                    <PhotoView
+                      key={reply.no}
+                      src={imageURL}
+                      overlay={
+                        <Overlay>
+                          <div onClick={handleOverlayClick}>
+                            {reply.com
+                              ? reply.com.length > 200
+                                ? reply.com.slice(0, 200) + "..."
+                                : reply.com
+                              : reply.filename + reply.ext}
+                          </div>
+                        </Overlay>
+                      }
+                    >
+                      <Image
+                        src={`https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
+                        alt={`Reply image ${reply.ext}`}
+                        width={600}
+                        height={400}
+                        className="max-h-[400px] w-auto object-contain"
+                      />
+                    </PhotoView>
+                  ) : (
+                    <Image
+                      src={`https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
+                      alt={`Reply image ${reply.ext}`}
+                      width={600}
+                      height={400}
+                      className="max-h-[400px] w-auto object-contain"
+                      onLoad={(e) => {
+                        setImageURL(e.currentTarget.src);
+                      }}
+                      loading="eager"
+                      // priority={false}
+                    />
+                  )}
+                </div>
               )}
-            </div>
+            </>
           )}
 
           <div className="mt-3 flex items-center justify-between text-gray-500">
