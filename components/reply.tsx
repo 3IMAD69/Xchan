@@ -3,8 +3,9 @@
 import { Thread } from "4chan-ts";
 import { Bookmark, MessageCircle, Share } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PhotoView } from "react-photo-view";
+import { toast } from "sonner";
 import { formatContent } from "./formatContent";
 import { Overlay } from "./Overlay";
 import VidNotSupported from "./VidNotSupported";
@@ -34,6 +35,23 @@ export default function Reply({ reply, boardId }: ReplyProps) {
   const [showReplies, setShowReplies] = useState(false);
   const [imageURL, setImageURL] = useState(``);
 
+  useEffect(() => {
+    // Check if URL hash matches this reply
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash;
+      if (hash === `#${reply.no}`) {
+        console.log(`Scrolling to reply ${reply.no}`);
+        const element = document.getElementById(`${reply.no}`);
+        if (element) {
+          element.classList.add("bg-yellow-800/20");
+          setTimeout(() => {
+            element.classList.remove("bg-yellow-800/20");
+          }, 2000);
+        }
+      }
+    }
+  }, [reply.no]);
+
   if (reply.resto == 0)
     // op , dont want it in comment ,
     return;
@@ -49,13 +67,28 @@ export default function Reply({ reply, boardId }: ReplyProps) {
 
   // Create a handler for clicking on content in the overlay
   const handleOverlayClick = () => {
-    scrollToElement(`reply-${reply.no}`);
+    scrollToElement(`${reply.no}`);
+  };
+
+  const handleShareReply = async () => {
+    let replyURL = `${window.location.href}`;
+    if (replyURL.includes("#")) {
+      replyURL = replyURL.split("#")[0];
+    }
+    try {
+      await navigator.clipboard.writeText(`${replyURL}#${reply.no}`);
+      toast.success("reply copied to clipboard!");
+      console.log(`${replyURL}${reply.no}`);
+    } catch (error) {
+      toast.error("Failed to copy reply .");
+      console.error("Failed to copy reply:", error);
+    }
   };
 
   return (
     <div
-      className="border-l border-gray-800 pl-3 mt-3 transition-colors duration-500"
-      id={`reply-${reply.no}`}
+      className={`border-l border-gray-800 pl-3 mt-3 transition-colors duration-500`}
+      id={`${reply.no}`}
     >
       <div className="flex gap-3">
         <div className="flex-shrink-0">
@@ -141,7 +174,10 @@ export default function Reply({ reply, boardId }: ReplyProps) {
               </button>
 
               <div className="relative">
-                <button className="flex items-center gap-1 hover:text-gray-300">
+                <button
+                  onClick={handleShareReply}
+                  className="flex items-center gap-1 cursor-pointer hover:text-gray-300"
+                >
                   <Share size={18} />
                 </button>
               </div>

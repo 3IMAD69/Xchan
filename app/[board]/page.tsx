@@ -35,11 +35,18 @@ export default async function BoardPage({
   //html to text for Threads
   Threads.forEach((thread) => {
     thread.threads.forEach((th) => {
-      if (th.com === undefined) return;
-      th.com = htmlToText(th.com, {
-        wordwrap: false,
-        preserveNewlines: true,
-      });
+      if (th.com) {
+        th.com = htmlToText(th.com, {
+          wordwrap: false,
+          preserveNewlines: true,
+        });
+      }
+      if (th.sub) {
+        th.sub = htmlToText(th.sub, {
+          wordwrap: false,
+          preserveNewlines: true,
+        });
+      }
     });
   });
 
