@@ -1,4 +1,4 @@
-import { Thread } from "4chan-ts";
+import type { Thread } from "4chan-ts";
 import { Bookmark, MessageCircle, Share } from "lucide-react";
 import { toast } from "sonner";
 

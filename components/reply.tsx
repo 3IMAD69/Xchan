@@ -1,6 +1,6 @@
 "use client";
 
-import { Thread } from "4chan-ts";
+import type { Thread } from "4chan-ts";
 import { Bookmark, MessageCircle, Share } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -83,6 +83,10 @@ export default function Reply({ reply, boardId }: ReplyProps) {
       toast.error("Failed to copy reply .");
       console.error("Failed to copy reply:", error);
     }
+  };
+
+  const handleSaveReply = () => {
+    toast.warning("Bookmark feature not implemented yet.");
   };
 
   return (
@@ -169,7 +173,10 @@ export default function Reply({ reply, boardId }: ReplyProps) {
             </button>
 
             <div className="flex items-center gap-4">
-              <button className="flex items-center gap-1 hover:text-gray-300">
+              <button
+                onClick={handleSaveReply}
+                className="flex items-center gap-1 cursor-pointer hover:text-gray-300"
+              >
                 <Bookmark size={18} />
               </button>
 

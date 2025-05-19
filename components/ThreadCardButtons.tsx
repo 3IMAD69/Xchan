@@ -1,6 +1,6 @@
 "use client";
 
-import { CatalogThreadPost } from "4chan-ts";
+import type { CatalogThreadPost } from "4chan-ts";
 import { Bookmark, MessageCircle, Share } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";

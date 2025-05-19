@@ -1,6 +1,6 @@
 "use client";
 
-import { Thread } from "4chan-ts";
+import type { Thread } from "4chan-ts";
 import Reply from "@/components/reply";
 import Image from "next/image";
 import { useState } from "react";
