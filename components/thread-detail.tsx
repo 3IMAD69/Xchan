@@ -47,12 +47,12 @@ export default function ThreadDetail({
           </div>
 
           <div className="flex-1 min-w-0">
-            <div className="flex items-center text-sm mb-1">
+            <div className="flex flex-wrap items-center text-sm ">
               <span className="text-green-500 font-medium">Anonymous</span>
               <span className="text-gray-500 mx-1">{formattedDate}</span>
               <span className="text-gray-500">No.{op.no}</span>
               {op.sub && (
-                <span className="ml-2 text-gray-300 font-semibold">
+                <span className="mt-1 w-full text-yellow-200/70 font-bold text-base break-words md:ml-2 md:w-auto md:mt-0">
                   {op.sub}
                 </span>
               )}
