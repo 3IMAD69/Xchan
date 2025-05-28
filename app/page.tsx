@@ -1,6 +1,7 @@
 import BoardList from "@/components/board-list";
 import { chan } from "@/lib/4chan-client";
 import { htmlToText } from "html-to-text";
+import PlausibleProvider from 'next-plausible'
 
 export default async function Home() {
   const { data, error } = await chan.getBoards();
