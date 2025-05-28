@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <PlausibleProvider
-          domain="https://x-chan.org"
+          domain="x-chan.org"
           customDomain="https://plausible.x-chan.org"
           taggedEvents={true}
           selfHosted={true}
