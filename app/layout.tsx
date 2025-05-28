@@ -1,10 +1,10 @@
 import "@/app/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import PlausibleProvider from "next-plausible";
 import { Inter } from "next/font/google";
 import type React from "react";
 import "react-photo-view/dist/react-photo-view.css";
-import PlausibleProvider from "next-plausible";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +25,7 @@ export default function RootLayout({
           domain="x-chan.org"
           customDomain="https://plausible.x-chan.org"
           taggedEvents={true}
-          selfHosted={true}
+          // selfHosted={true}
           trackOutboundLinks={true}
           trackFileDownloads={true}
         >
