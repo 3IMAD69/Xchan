@@ -2,15 +2,15 @@ import "@/app/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import PlausibleProvider from "next-plausible";
-import { Inter } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import type React from "react";
 import "react-photo-view/dist/react-photo-view.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const mono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "4chan with Twitter UI",
-  description: "A 4chan-like interface with Twitter UI and nested replies",
+  title: "Xchan",
+  description: "A 4chan-like interface with X UI and nested replies",
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={mono.className}>
         <PlausibleProvider
           domain="x-chan.org"
           customDomain="https://plausible.x-chan.org"
