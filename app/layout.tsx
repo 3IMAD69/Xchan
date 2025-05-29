@@ -2,11 +2,21 @@ import "@/app/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import PlausibleProvider from "next-plausible";
-import { Geist_Mono } from "next/font/google";
+import { Geist, Roboto_Mono } from "next/font/google";
 import type React from "react";
 import "react-photo-view/dist/react-photo-view.css";
 
-const mono = Geist_Mono({ subsets: ["latin"] });
+const geist = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const roboto_mono = Roboto_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto-mono",
+});
 
 export const metadata = {
   title: "Xchan",
@@ -20,7 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={mono.className}>
+      <body className={`${geist.variable} ${roboto_mono.variable} antialiased`}>
         <PlausibleProvider
           domain="x-chan.org"
           customDomain="https://plausible.x-chan.org"

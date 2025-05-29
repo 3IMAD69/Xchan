@@ -35,7 +35,7 @@ export default async function Home() {
               height={32}
               className="h-8 w-8"
             />
-            <h1 className="text-xl font-bold">Xchan</h1>
+            <h1 className="text-xl font-bold font-mono">Xchan</h1>
           </div>
           <div className="text-sm text-gray-400">
             View-only 4chan with X UI and nested replies

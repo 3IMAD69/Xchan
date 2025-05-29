@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function BoardList({ boards }: { boards: Board[] }) {
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold mb-4">Available Boards</h2>
+      <h2 className="text-xl font-bold font-mono mb-4">Available Boards</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {boards.map((board) => (
           <Link
