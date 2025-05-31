@@ -21,6 +21,28 @@ const roboto_mono = Roboto_Mono({
 export const metadata = {
   title: "Xchan",
   description: "A 4chan-like interface with X UI and nested replies",
+  openGraph: {
+    title: "Xchan",
+    description: "A 4chan-like interface with X UI and nested replies",
+    images: [
+      {
+        url: "/Xchan-op.png",
+        width: 1200,
+        height: 630,
+        alt: "Xchan logo",
+      },
+    ],
+    type: "website",
+    siteName: "Xchan",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Xchan",
+    description: "A 4chan-like interface with X UI and nested replies",
+    images: ["/Xchan-op.png"],
+    creator: "@yourusername", // Replace with your Twitter handle if you have one
+  },
 };
 
 export default function RootLayout({
