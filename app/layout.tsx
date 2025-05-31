@@ -19,6 +19,7 @@ const roboto_mono = Roboto_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://x-chan.org"),
   title: "Xchan",
   description: "A 4chan-like interface with X UI and nested replies",
 };
