@@ -4,19 +4,6 @@ import { htmlToText } from "html-to-text";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { board: string };
-}) {
-  const { board } = params;
-
-  return {
-    title: `/${board}/ - Xchan`,
-    description: `View threads on the /${board}/ board`,
-  };
-}
-
 export default async function BoardPage({
   params,
 }: {
@@ -81,4 +68,18 @@ export default async function BoardPage({
       </main>
     </div>
   );
+}
+
+// If you have generateMetadata function, update it too:
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ board: string }>;
+}) {
+  const { board } = await params;
+
+  return {
+    title: `/${board}/ - Xchan`,
+    description: `View threads on the /${board}/ board`,
+  };
 }

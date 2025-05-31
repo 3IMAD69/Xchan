@@ -68,7 +68,8 @@ export async function generateMetadata({
       },
     };
   } catch (error) {
-    console.log(error);
+    // Consider using proper logging service in production
+    console.error("Error generating thread metadata:", error);
     return {
       title: "Error loading thread",
       description: "An error occurred while loading this thread.",
