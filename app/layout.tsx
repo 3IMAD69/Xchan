@@ -21,7 +21,10 @@ const roboto_mono = Roboto_Mono({
 export const metadata = {
   metadataBase: new URL("https://x-chan.org"),
   title: "Xchan",
+  siteName: "Xchan",
   description: "A 4chan-like interface with X UI and nested replies",
+  locale: "en_US",
+  type: "website",
 };
 
 export default function RootLayout({
