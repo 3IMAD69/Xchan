@@ -1,6 +1,6 @@
 import SingleThread from "@/components/SingleThread";
 import ThreadSkeleton from "@/components/ThreadSkeleton";
-import { chan } from "@/lib/4chan-client";
+import { getCachedThread } from "@/lib/4chan-utils";
 import { htmlToText } from "html-to-text";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -13,7 +13,7 @@ export async function generateMetadata({
   const { id, board } = await params;
 
   try {
-    const { data, error } = await chan.getThread(board, id);
+    const { data, error } = await getCachedThread(board, id);
 
     if (error || !data.posts[0]) {
       return {

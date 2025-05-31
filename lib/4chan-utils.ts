@@ -1,5 +1,7 @@
 import { Thread, ThreadIndex } from "4chan-ts";
 import { htmlToText } from "html-to-text";
+import { cache } from "react";
+import { chan } from "./4chan-client";
 
 // extend ThreadIndex interface to include replies_arr
 declare module "4chan-ts" {
@@ -8,6 +10,10 @@ declare module "4chan-ts" {
     isReplyInstance: boolean;
   }
 }
+
+export const getCachedThread = cache(async (board: string, id: number) => {
+  return await chan.getThread(board, id);
+});
 
 function findReplyLinksInComment(htmlString: string) {
   const links = [];

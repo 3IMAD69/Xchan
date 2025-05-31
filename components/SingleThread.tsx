@@ -1,5 +1,7 @@
-import { chan } from "@/lib/4chan-client";
-import { FormatThreadToNestedComment } from "@/lib/4chan-utils";
+import {
+  FormatThreadToNestedComment,
+  getCachedThread,
+} from "@/lib/4chan-utils";
 import { htmlToText } from "html-to-text";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -12,7 +14,8 @@ export default async function SingleThread({
   board: string;
   id: number;
 }) {
-  const { data, error } = await chan.getThread(board, id);
+  const { data, error } = await getCachedThread(board, id);
+
   if (error) {
     return (
       <div className="min-h-screen bg-black text-white">
