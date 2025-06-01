@@ -1,1 +1,1 @@
-bun prepare
+bun run format && bun run lint
