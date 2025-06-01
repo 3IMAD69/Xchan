@@ -51,11 +51,9 @@ export default function Reply({ reply, boardId }: ReplyProps) {
       }
     }
   }, [reply.no]);
-
   if (reply.resto == 0)
     // op , dont want it in comment ,
     return;
-
   const formattedDate = new Date(reply.time * 1000).toLocaleString("en-US", {
     month: "2-digit",
     day: "2-digit",
@@ -97,13 +95,22 @@ export default function Reply({ reply, boardId }: ReplyProps) {
       <div className="flex gap-3">
         <div className="flex-shrink-0">
           <div className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-sm font-bold">
-            {reply.id ? reply.id.substring(0, 2) : "A"}
+            {reply.id ? reply.id.substring(0, 3) : "A"}
           </div>
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center text-sm mb-1">
             <span className="text-green-500 font-medium">Anon</span>
+            {reply.country && (
+              <Image
+                src={`https://s.4cdn.org/image/country/${reply.country.toLowerCase()}.gif`}
+                alt={reply.country_name || reply.country}
+                width={16}
+                height={11}
+                className="ml-1"
+              />
+            )}
             <span className="text-gray-500 mx-1">{formattedDate}</span>
             <span className="text-gray-500">No.{reply.no}</span>
           </div>
