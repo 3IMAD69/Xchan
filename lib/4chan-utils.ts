@@ -74,9 +74,22 @@ export const FormatThreadToNestedComment = async (Threads: ThreadIndex) => {
             i + 1 < replyLinks.length
               ? replyLinks[i + 1].index
               : commentHtml.length;
-          const extractedCom = commentHtml
+          let extractedCom = commentHtml
             .substring(segmentStartIndex, segmentEndIndex)
             .trim();
+
+          // If the extracted segment is empty or only contains reply links, use the entire comment
+          const textContent = htmlToText(extractedCom, {
+            wordwrap: false,
+            preserveNewlines: true,
+          })
+            .replace(/>>\d+/g, "")
+            .replace(/^\s+|\s+$/gm, "");
+
+          if (!textContent.trim()) {
+            extractedCom = commentHtml;
+          }
+
           // Store this segment as the reply to OP
           postRepliesDirectlyToOP.set(currentPost.no, extractedCom);
         }
@@ -98,9 +111,22 @@ export const FormatThreadToNestedComment = async (Threads: ThreadIndex) => {
               ? replyLinks[i + 1].index
               : commentHtml.length;
 
-          const extractedCom = commentHtml
+          let extractedCom = commentHtml
             .substring(segmentStartIndex, segmentEndIndex)
             .trim();
+
+          // Check if the extracted segment is empty or only contains reply links
+          const textContent = htmlToText(extractedCom, {
+            wordwrap: false,
+            preserveNewlines: true,
+          })
+            .replace(/>>\d+/g, "")
+            .replace(/^\s+|\s+$/gm, "");
+
+          // If the segment is empty after processing, use the entire comment
+          if (!textContent.trim()) {
+            extractedCom = commentHtml;
+          }
 
           // Create a new "reply instance" object.
           // This instance represents currentPost AS A REPLY TO parentPostInMap.
