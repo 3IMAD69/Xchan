@@ -24,7 +24,7 @@ export async function generateMetadata({
 
     const op = data.posts[0];
     const title = op.semantic_url
-      ? op.semantic_url.replaceAll("-", " ")
+      ? op.semantic_url.replaceAll("-", " ") + ` - /${board}/ - Xchan`
       : `Thread ${id} on /${board}/`;
 
     // Convert HTML comment to plain text for description
