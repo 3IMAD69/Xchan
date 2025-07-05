@@ -1,6 +1,6 @@
 import type { Board } from "4chan-ts";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { ForesightLink } from "./ForesightLink";
 
 export default function BoardList({ boards }: { boards: Board[] }) {
   return (
@@ -8,11 +8,11 @@ export default function BoardList({ boards }: { boards: Board[] }) {
       <h2 className="text-xl font-bold font-mono mb-4">Available Boards</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {boards.map((board) => (
-          <Link
+          <ForesightLink
             key={board.board}
+            name={board.board}
             href={`/${board.board}`}
             className="border border-gray-800 rounded-lg p-4 hover:bg-gray-900 transition-colors"
-            prefetch={true}
           >
             <div className="flex items-center justify-between">
               <div>
@@ -25,7 +25,7 @@ export default function BoardList({ boards }: { boards: Board[] }) {
               </div>
               <ArrowRight className="h-5 w-5 text-gray-500" />
             </div>
-          </Link>
+          </ForesightLink>
         ))}
       </div>
     </div>
