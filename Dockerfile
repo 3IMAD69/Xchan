@@ -17,9 +17,9 @@ RUN bun run build
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /public ./public
+COPY --from=builder /.next/standalone ./
+COPY --from=builder /.next/static ./.next/static
 
 EXPOSE 3000
 CMD ["bun", "run", "server.js"]
