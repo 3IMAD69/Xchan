@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       new URL("https://s.4cdn.org/**"),
     ],
   },
+  output: "standalone",
 };
 
 export default nextConfig;
