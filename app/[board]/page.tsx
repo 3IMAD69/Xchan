@@ -63,7 +63,29 @@ function ThreadsLoading() {
   );
 }
 
-export default async function BoardPage({
+// Loading component for entire board page
+function BoardPageLoading() {
+  return (
+    <div className="min-h-screen bg-black text-white">
+      <main className="min-h-screen bg-black text-white">
+        <div className="max-w-2xl mx-auto border-x border-gray-800">
+          <div className="sticky top-0 z-10 backdrop-blur-md bg-black/80 border-b border-gray-800 p-4">
+            <div className="flex items-center">
+              <div className="mr-4 rounded-full p-2">
+                <ArrowLeft className="h-5 w-5" />
+              </div>
+              <div className="h-6 bg-gray-800 rounded w-32 animate-pulse"></div>
+            </div>
+          </div>
+          <ThreadsLoading />
+        </div>
+      </main>
+    </div>
+  );
+}
+
+// Create a wrapper component for the board content
+async function BoardContent({
   params,
 }: {
   params: Promise<{ board: string }>;
@@ -91,6 +113,18 @@ export default async function BoardPage({
         </div>
       </main>
     </div>
+  );
+}
+
+export default function BoardPage({
+  params,
+}: {
+  params: Promise<{ board: string }>;
+}) {
+  return (
+    <Suspense fallback={<BoardPageLoading />}>
+      <BoardContent params={params} />
+    </Suspense>
   );
 }
 

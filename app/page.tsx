@@ -1,10 +1,18 @@
 import BoardList from "@/components/board-list";
 import { chan } from "@/lib/4chan-client";
 import { htmlToText } from "html-to-text";
+import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 
+async function getCacheBoards() {
+  "use cache";
+  cacheTag("boards");
+  cacheLife("hours");
+  return chan.getBoards();
+}
+
 export default async function Home() {
-  const { data, error } = await chan.getBoards();
+  const { data, error } = await getCacheBoards();
 
   if (error) {
     console.error("Error fetching boards:", error);
