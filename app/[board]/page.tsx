@@ -9,7 +9,7 @@ import { Suspense } from "react";
 async function ThreadsList({ board }: { board: string }) {
   const { data: Threads, error } = await chan.getCatalog(board);
 
-  if (error) {
+  if (error || !Threads) {
     return (
       <div className="py-8 text-center text-red-500">
         The board /{board}/ was not found.
@@ -17,22 +17,34 @@ async function ThreadsList({ board }: { board: string }) {
     );
   }
 
+  // Validate that Threads is an array before calling forEach
+  if (!Array.isArray(Threads)) {
+    console.error("Invalid data structure received:", Threads);
+    return (
+      <div className="py-8 text-center text-red-500">
+        Error loading board data. Please try again later.
+      </div>
+    );
+  }
+
   //html to text for Threads
   Threads.forEach((thread) => {
-    thread.threads.forEach((th) => {
-      if (th.com) {
-        th.com = htmlToText(th.com, {
-          wordwrap: false,
-          preserveNewlines: true,
-        });
-      }
-      if (th.sub) {
-        th.sub = htmlToText(th.sub, {
-          wordwrap: false,
-          preserveNewlines: true,
-        });
-      }
-    });
+    if (thread && thread.threads && Array.isArray(thread.threads)) {
+      thread.threads.forEach((th) => {
+        if (th.com) {
+          th.com = htmlToText(th.com, {
+            wordwrap: false,
+            preserveNewlines: true,
+          });
+        }
+        if (th.sub) {
+          th.sub = htmlToText(th.sub, {
+            wordwrap: false,
+            preserveNewlines: true,
+          });
+        }
+      });
+    }
   });
 
   return (
