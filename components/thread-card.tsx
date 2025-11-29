@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatContent } from "./formatContent";
 import ThreadCardButtons from "./ThreadCardButtons";
+import VideoPlayer from "./VideoPlayer";
 
 interface ThreadCardProps {
   thread: CatalogThreadPost;
@@ -98,13 +99,12 @@ export default function ThreadCard({ thread, boardId }: ThreadCardProps) {
             {thread.tim && thread.ext && (
               <>
                 {[".webm", ".mp4"].includes(thread.ext.toLowerCase()) ? (
-                  <div className="rounded-2xl overflow-hidden mt-2">
-                    <video
-                      src={`${process.env.NEXT_PUBLIC_PROXY_URL || "http://localhost:3000"}/proxy?url=https://i.4cdn.org/${boardId}/${thread.tim}${thread.ext}`}
-                      controls
-                      className="max-w-full object-contain"
-                    />
-                  </div>
+                  <VideoPlayer
+                    boardId={boardId}
+                    tim={thread.tim}
+                    ext={thread.ext}
+                    className="max-w-full object-contain"
+                  />
                 ) : (
                   <div className="rounded-2xl overflow-hidden  mt-2">
                     <Image
