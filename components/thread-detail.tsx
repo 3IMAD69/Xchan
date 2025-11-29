@@ -7,7 +7,6 @@ import { useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { formatContent } from "./formatContent";
 import ThreadSingleButtons from "./ThreadSingleButtons";
-import VidNotSupported from "./VidNotSupported";
 
 interface ThreadDetailProps {
   op: Thread;
@@ -74,11 +73,13 @@ export default function ThreadDetail({
             {op.tim && op.ext && (
               <>
                 {[".webm", ".mp4"].includes(op.ext.toLowerCase()) ? (
-                  <VidNotSupported
-                    ext={op.ext}
-                    tim={op.tim}
-                    boardId={boardId}
-                  />
+                  <div className="mt-2 rounded-md overflow-hidden">
+                    <video
+                      src={`${process.env.NEXT_PUBLIC_PROXY_URL || "http://localhost:3000"}/proxy?url=https://i.4cdn.org/${boardId}/${op.tim}${op.ext}`}
+                      controls
+                      className="w-full h-auto max-h-[500px] object-contain"
+                    />
+                  </div>
                 ) : (
                   <PhotoProvider
                     maskOpacity={0.7}

@@ -8,7 +8,6 @@ import { PhotoView } from "react-photo-view";
 import { toast } from "sonner";
 import { formatContent } from "./formatContent";
 import { Overlay } from "./Overlay";
-import VidNotSupported from "./VidNotSupported";
 
 // Add this function to scroll to elements
 const scrollToElement = (id: string) => {
@@ -120,11 +119,13 @@ export default function Reply({ reply, boardId }: ReplyProps) {
           {reply.tim && reply.ext && (
             <>
               {[".webm", ".mp4"].includes(reply.ext.toLowerCase()) ? (
-                <VidNotSupported
-                  ext={reply.ext}
-                  tim={reply.tim}
-                  boardId={boardId}
-                />
+                <div className="mt-2 rounded-md overflow-hidden">
+                  <video
+                    src={`${process.env.NEXT_PUBLIC_PROXY_URL || "http://localhost:3000"}/proxy?url=https://i.4cdn.org/${boardId}/${reply.tim}${reply.ext}`}
+                    controls
+                    className="max-h-[400px] w-auto object-contain"
+                  />
+                </div>
               ) : (
                 <div className="mt-2 rounded-md overflow-hidden cursor-pointer">
                   {imageURL != "" ? (
