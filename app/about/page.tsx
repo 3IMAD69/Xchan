@@ -3,21 +3,24 @@
 import { useEffect, useRef } from "react";
 
 export default function WebGLLeakTest() {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const gl = canvas.getContext("webgl");
+    if (!canvas) return;
+    const glNullable = canvas.getContext("webgl");
 
-    if (!gl) {
+    if (!glNullable) {
       console.error("WebGL not supported");
       return;
     }
 
+    const gl: WebGLRenderingContext = glNullable;
+
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const buffers = [];
+    const buffers: WebGLBuffer[] = [];
 
     function stressGPU() {
       for (let i = 0; i < 1000; i++) {
