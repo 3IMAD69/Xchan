@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BoardRouteImport } from './routes/$board'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as ApiProxyRouteImport } from './routes/api/proxy'
 import { Route as BoardThreadIdRouteImport } from './routes/$board_.thread.$id'
 import { Route as ApiIpxSplatRouteImport } from './routes/api/ipx/$'
@@ -24,11 +23,6 @@ const IndexRoute = IndexRouteImport.update({
 const BoardRoute = BoardRouteImport.update({
   id: '/$board',
   path: '/$board',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiProxyRoute = ApiProxyRouteImport.update({
@@ -50,7 +44,6 @@ const ApiIpxSplatRoute = ApiIpxSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$board': typeof BoardRoute
-  '/about': typeof AboutRoute
   '/api/proxy': typeof ApiProxyRoute
   '/$board/thread/$id': typeof BoardThreadIdRoute
   '/api/ipx/$': typeof ApiIpxSplatRoute
@@ -58,7 +51,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$board': typeof BoardRoute
-  '/about': typeof AboutRoute
   '/api/proxy': typeof ApiProxyRoute
   '/$board/thread/$id': typeof BoardThreadIdRoute
   '/api/ipx/$': typeof ApiIpxSplatRoute
@@ -67,7 +59,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$board': typeof BoardRoute
-  '/about': typeof AboutRoute
   '/api/proxy': typeof ApiProxyRoute
   '/$board_/thread/$id': typeof BoardThreadIdRoute
   '/api/ipx/$': typeof ApiIpxSplatRoute
@@ -75,25 +66,13 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/$board'
-    | '/about'
-    | '/api/proxy'
-    | '/$board/thread/$id'
-    | '/api/ipx/$'
+    '/' | '/$board' | '/api/proxy' | '/$board/thread/$id' | '/api/ipx/$'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/$board'
-    | '/about'
-    | '/api/proxy'
-    | '/$board/thread/$id'
-    | '/api/ipx/$'
+  to: '/' | '/$board' | '/api/proxy' | '/$board/thread/$id' | '/api/ipx/$'
   id:
     | '__root__'
     | '/'
     | '/$board'
-    | '/about'
     | '/api/proxy'
     | '/$board_/thread/$id'
     | '/api/ipx/$'
@@ -102,7 +81,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BoardRoute: typeof BoardRoute
-  AboutRoute: typeof AboutRoute
   ApiProxyRoute: typeof ApiProxyRoute
   BoardThreadIdRoute: typeof BoardThreadIdRoute
   ApiIpxSplatRoute: typeof ApiIpxSplatRoute
@@ -122,13 +100,6 @@ declare module '@tanstack/react-router' {
       path: '/$board'
       fullPath: '/$board'
       preLoaderRoute: typeof BoardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/proxy': {
@@ -158,7 +129,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BoardRoute: BoardRoute,
-  AboutRoute: AboutRoute,
   ApiProxyRoute: ApiProxyRoute,
   BoardThreadIdRoute: BoardThreadIdRoute,
   ApiIpxSplatRoute: ApiIpxSplatRoute,

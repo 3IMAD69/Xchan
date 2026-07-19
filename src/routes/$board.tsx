@@ -7,6 +7,7 @@ import ThreadCard from "@/components/thread-card";
 import { getCatalog } from "@/lib/chan.functions";
 import { ArrowLeft, RefreshCw } from "lucide-react";
 import { useEffect } from "react";
+import LogoLoader from "@/components/LogoLoader";
 
 export const Route = createFileRoute("/$board")({
   loader: ({ params }) => getCatalog({ data: { board: params.board } }),
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/$board")({
       },
     ],
   }),
-  pendingComponent: BoardPageLoading,
+  pendingComponent: LogoLoader,
   pendingMs: 0,
   notFoundComponent: BoardNotFound,
   errorComponent: BoardError,

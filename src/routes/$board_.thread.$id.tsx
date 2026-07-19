@@ -4,7 +4,7 @@ import {
   useParams,
 } from "@tanstack/react-router";
 import ThreadDetail from "@/components/thread-detail";
-import ThreadSkeleton from "@/components/ThreadSkeleton";
+import LogoLoader from "@/components/LogoLoader";
 import { getThread } from "@/lib/chan.functions";
 import { ArrowLeft, RefreshCw } from "lucide-react";
 import { useEffect } from "react";
@@ -62,7 +62,7 @@ export const Route = createFileRoute("/$board_/thread/$id")({
       ],
     };
   },
-  pendingComponent: ThreadSkeleton,
+  pendingComponent: LogoLoader,
   pendingMs: 0,
   notFoundComponent: ThreadNotFound,
   errorComponent: ThreadError,
