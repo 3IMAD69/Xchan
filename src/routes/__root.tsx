@@ -45,9 +45,14 @@ export const Route = createRootRoute({
     ],
     scripts: [
       {
-        src: "https://plausible.x-chan.org/js/script.file-downloads.outbound-links.tagged-events.js",
-        defer: true,
-        "data-domain": "x-chan.org",
+        async: true,
+        src: "https://plausible.x-chan.org/js/pa-tdLYbxXOHnSvht409bmU_.js",
+      },
+      {
+        dangerouslySetInnerHTML: {
+          __html:
+            "window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};\nplausible.init()",
+        },
       },
     ],
   }),
