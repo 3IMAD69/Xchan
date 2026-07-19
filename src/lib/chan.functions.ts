@@ -67,7 +67,6 @@ export const getThread = createServerFn({ method: "GET" })
   .handler(async ({ data: { board, id } }) => {
     const { data, error } = await chan.getThread(board, id);
     // sleep 10s
-    await new Promise((resolve) => setTimeout(resolve, 10000));
     if (error || !data || !data.posts[0]) {
       throw notFound();
     }
