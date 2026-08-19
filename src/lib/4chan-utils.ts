@@ -152,7 +152,7 @@ export const FormatThreadToNestedComment = async (Threads: ThreadIndex) => {
     }
   });
 
-  // Process the filtered posts
+  // Process the filtered posts ...
   const filteredPosts = posts.filter((post) => {
     // If this post only replies to someone other than OP (and not to OP), ...
     // exclude it from the main list since it's already nested
